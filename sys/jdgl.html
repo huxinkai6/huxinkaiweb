@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../lib/layui/layui.js"></script>
+		<link rel="stylesheet" href="../lib/layui/css/layui.css" />
+        <script type="text/javascript" src="../globalDate.js" ></script>
+	</head>
+	<body>
+			<script>
+		layui.use(["table", "laydate", "layer", "jquery"], function() {
+			var table = layui.table;
+			var layer=layui.layer;
+			var laydate = layui.laydate;
+			var $ = layui.jquery;
+			var token = "9408c184-3b43-4175-a925-ea64f3d5563a";
+			var url = globalDate.server+"GetRolesLayUI";
+			table.render({
+				elem: '#demo',
+				url: url,
+				method: 'post',
+				where: {
+					token: token
+				},
+				title: '用户角色表',
+				page: true, //开启分页
+				cols: [
+					[{ 
+						field:'RowNum',
+						title: '序号',
+						width: 80
+					}, {
+						field: 'Name',
+						title: '角色名',
+						width: 180
+					}, {
+						title: '操作',
+						width: 320,
+						toolbar:"#barDemo"
+					}]
+				],
+				toolbar: "#toolbarDemo",
+				id: "testReload",
+				done:function(res,curr,count){
+					pData=res.data;
+				}
+			});
+			//行内事件
+			table.on('tool(test)', function(obj){
+                    var data=obj.data; 
+                    var name=data.Name;
+                    var id=data.Id;
+                   
+                    switch(obj.event){
+                       case 'del':
+                         {
+                         	layer.confirm('你确定要删除角色'+name+'吗',function(){
+                         		     $.post(globalDate.server+"DeleteRole",{
+                         		     	"roleId":data.Id, 
+                         		     	"token":globalDate.myToken
+                         		     },function(r){
+                         		     	 if(r.success){
+                         		     	 	 alert("删除成功");
+                         		     	 	 window.location.reload();
+                         		     	 }else{
+                         		     	 	 alert("删除失败");
+                         		     	 }
+                         		     },"json");
+                         	});
+                         }
+                         break;                   
+                       case 'edit':
+                        window.sessionStorage.setItem("name",name);
+                        window.sessionStorage.setItem("rid",id);
+                        {
+                        	layer.open({
+                         	 type:2,
+                         	 title:'你正在修改'+data.Name+'角色信息',
+                         	 shadeClose:true,
+                         	 offset: '100px',
+                         	 closeBtn :2,
+                         	 area:["500px","300px"],
+                         	 content:"jedit.html"
+                         });
+                        }
+                         break;
+                          case 'shezhi': 
+                           window.sessionStorage.setItem("rid",data.Id);
+                        {
+                        	layer.open({
+                         	 type:2,
+                         	 title:'你正在设置角色'+data.Name+'的权限',
+                         	 shadeClose:true,
+                         	 offset: '100px',
+                         	 closeBtn :2,
+                         	 area:["500px","300px"],
+                         	 content:"tree.html"
+                         });
+                        }
+                         break;
+  };
+});
+		 	//头部事件
+	                 $("#add").click(function(){
+	                 	 layer.open({
+                         	 type:2,
+                         	 title:'你正在添加角色信息',
+                         	 shadeClose:true,
+                         	 offset: '100px',
+                         	 closeBtn :2,
+                         	 area:["500px","300px"],
+                         	 content:"jadd.html"
+                         });
+	                 });
+		});
+	</script>
+	<!--头部工具栏-->
+	<script type="text/html" id="toolbarDemo">
+		<div class="layui-btn-container">
+			<button class="layui-btn layui-btn-sm" id="add" type="button" lay-event="add"><i class="layui-icon">&#xe608;</i>添加角色</button>
+		</div>
+	</script>
+	<!--//行内工具-->
+	<script type="text/html" id="barDemo">
+		<a class="layui-btn layui-btn-xs layui-bg-gray" lay-event="shezhi"><i class="layui-icon layui-icon-set"></i>设置权限</a>
+		<a class="layui-btn layui-btn-xs layui-bg-red" lay-event="del"><i class="layui-icon">&#xe640;</i>删除</a>
+		<a class="layui-btn layui-btn-xs layui-bg-orange" lay-event="edit"><i class="layui-icon">&#xe642;</i>编辑</a>
+	</script>
+	<table class="layui-hide" id="demo" lay-filter="test"></table>
+	</body>
+</html>

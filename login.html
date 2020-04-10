@@ -1,0 +1,84 @@
+<html>
+	<head>
+		<meta http-equiv="Access-Control-Allow-Origin" content="*">
+
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>权限 管理系统</title>
+		<link rel="stylesheet" href="css/login.css">
+
+
+		<!-- <script src="lib/layui/layui.js" charset="utf-8"></script>
+		<link rel="stylesheet" href="lib/layui/css/layui.css" type="text/css" /> -->
+		<!--feaabb44-8de3-4025-b6d8-83ab93858c78-->
+
+	</head>
+	<body class="login-bg">
+		<canvas id="fullstarbg">你的浏览器不支持canvas标签!</canvas>
+		<div class="login">
+			<div class="message">管理员系统登录</div>
+			<div id="darkbannerwrap"></div>
+			<form action="" class="layui-form" id="myLogin" name="myLogin">
+				<div class="layui-inline">
+					<label class="layui-form-label">用户名</label>
+					<div class="layui-input-inline" style="width: 100px;">
+						<input type="text" name="name" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+
+				<hr class="hr15">
+				<div class="layui-inline">
+					<label class="layui-form-label">密码</label>
+					<div class="layui-input-inline" style="width: 100px;">
+						<input type="text" name="pass" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+
+				<hr class="hr15">
+				<div class="layui-inline">
+					<label class="layui-form-label"></label>
+					<div class="layui-input-inline" style="width: 100px;">
+						<button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+					</div>
+				</div>
+
+				<!-- //<input value="登录"  style="width:100%;" type="submit" lay-submit lay-filter="sub" > -->
+				<hr class="hr20">
+			</form>
+
+		</div>
+		<script type="text/javascript" src="js/layui/layui.js"></script>
+		<script>
+			layui.use(['layer', 'form', 'table', 'jquery', 'form'], function() {
+						var layer = layui.layer,
+							form = layui.form,
+							table = layui.table,
+							$ = layui.jquery,
+							form = layui.form;
+
+						form.on('submit(formDemo)', function(data) {
+							// alert($("#myLogin").serialize());
+							//layer.msg('登陆失败')
+							$.post("http://localhost:8080/maven_crm/stu/login",$("#myLogin").serialize(),function(res){
+								//alert($("#myLogin").serialize());
+								console.log(res);
+								if(res.success){
+									var obj = res.message;
+									//转向首页
+									window.location.href = "file:///C:/Users/小凯/Desktop/Web/Web/index.html"
+								}else{
+									layer.msg('登陆失败')
+									
+								}
+								
+							})		
+							
+							return false;
+
+						});
+						
+					
+						});
+		</script>
+	</body>
+</html>

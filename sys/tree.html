@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		
+		<script src="../lib/layui/layui.js"></script>
+		<link rel="stylesheet" href="../lib/css/layui.css" />
+        <script type="text/javascript" src="../globalDate.js" ></script>
+	</head> 
+	<body>
+		<!--设置权限-->
+		<div id="div">
+			<table id="tabEdit">
+				<tr>
+					<td>
+						<div id="test1"></div>
+					</td>
+					<td style="text-align: center; padding: 10px;">
+						<a id="baocun" href="#" class="layui-btn"><i class="layui-icon">&#xe605;</i>保存设置</a>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<!----------------------------------------->
+		<script type="text/javascript">
+			
+			var setIndex; //设置层
+			var zz; //正在编辑的角色id			
+			var arr = []; //声明数组，用于保存选中的tree节点的Id
+			 layui.use(['jquery','tree'],function(){
+			 	  var $=layui.jquery;
+			 	  var tree=layui.tree;
+			 	  var rid=window.sessionStorage.getItem("rid");
+			 	  active = {
+				  load:function(){
+				  	    $.post(globalDate.server+"GetModulesByRoleIdLayUI",{
+				  	    "roleId":rid,
+			 	  	    "token":"9408c184-3b43-4175-a925-ea64f3d5563a"
+			 	  },function(data){		
+			 	  	    tree.render({
+			 	  	    	 elem:"#test1",
+			 	  	    	 data:data,
+			 	  	    	 showCheckbox:true,
+			 	  	    	 id:'zz',			 	  	    				 	  	    	
+			 	  	    });
+			 	  	     cur_roId=rid;
+			 	  },"json");
+				  }
+			}			 	  
+			 	  active.load();			 	 
+			 	  /* arr = [];
+			//递归获取选中节点的Id
+			function getChildenId(node) {
+				if(node != null) {
+					arr.push(node.id);
+					for(var i = 0; node.children != null && i < node.children.length; i++) {
+						getChildenId(node.children[i]);
+					}
+				}
+			}*/
+			 	   //给角色设置权限
+				$("#baocun").click(function() {
+					var nodes = tree.getChecked('zz');
+					var s = "";
+					//字符串拼接基本功，要求手熟
+					for(var i = 0; i < nodes.length; i++) {
+						if(s == "") {
+							s += nodes[i].id;
+						} else {
+							s += ",";
+							s += nodes[i].id;
+						}
+					}
+					$.post(globalDate.server + "SetSysRights", {
+						parentIds:s,
+						rId: cur_roId,
+						token: globalDate.myToken
+					}, function(r) {
+						if(r.success) {
+							alert("消息,保存权限成功！");							
+							//权限设置后，有可能自己的导航中的功能树有改变，需要刷新。
+							//调用顶层窗口的方法，重新加载功能树。
+							window.parent.location.reload();
+						} else {
+							alert("消息", r.message);
+						}
+					}, "json")
+				});
+			 });
+			 
+		</script>
+	</body>
+</html>

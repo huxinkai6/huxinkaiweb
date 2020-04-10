@@ -1,0 +1,342 @@
+
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" href="js/layui/css/layui.css" type="text/css">
+		</link>
+	</head>
+	<body>
+		<!-- 修改Begin -->
+		<div style="display: none" id="edit">
+			<form class="layui-form" action="" lay-filter="editAll">
+				<div class="layui-form-item">
+
+					<input type="hidden" name="Id">
+					<div class="layui-inline">
+						<label class="layui-form-label">用户名</label>
+						<div class="layui-input-inline" style="width: 200px;">
+							<input type="text" name="LoginName" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+
+					<div class="layui-inline">
+						<label class="layui-form-label">密码</label>
+						<div class="layui-input-inline" style="width: 200px;">
+							<input type="text" name="Password" lay-verify="" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+
+					<div class="layui-inline">
+						<label class="layui-form-label">是否锁定</label>
+						<div class="layui-input-inline" style="width: 200px;">
+							<select name="IsLockout" lay-verify="">
+								<option value="否">否</option>
+								<option value="是">是</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="layui-inline">
+						<label class="layui-form-label">密保邮箱</label>
+						<div class="layui-input-inline" style="width: 200px;">
+							<input type="text" name="ProtectEMail" lay-verify="" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+
+					<div class="layui-inline">
+						<label class="layui-form-label">密保手机</label>
+						<div class="layui-input-inline" style="width: 200px;">
+							<input type="text" name="protectMTel" lay-verify="" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+
+					<div class="layui-inline">
+						<label class="layui-form-label"></label>
+						<div class="layui-input-inline" style="width: 100px;">
+							<button class="layui-btn" lay-submit lay-filter="e_formDemo">立即提交</button>
+						</div>
+					</div>
+
+				</div>
+			</form>
+		</div>
+		<!-- 修改End -->
+
+		<!-- 添加Begin -->
+		<div style="display: none" id="add">
+			<form class="layui-form" action="" lay-filter="">
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">编号</label>
+						<div class="layui-input-inline" style="width: 200px;">
+							<input type="text" name="Id" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+
+					<div class="layui-inline">
+						<label class="layui-form-label">用户名</label>
+						<div class="layui-input-inline" style="width: 200px;">
+							<input type="text" name="LoginName" lay-verify="" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+
+					<div class="layui-inline">
+						<label class="layui-form-label">密码</label>
+						<div class="layui-input-inline" style="width: 200px;">
+							<input type="text" name="Password" lay-verify="" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					
+					<div class="layui-inline">
+						<label class="layui-form-label">是否锁定</label>
+						<div class="layui-input-inline" style="width: 200px;">
+							<select name="IsLockout" lay-verify="">
+								<option value="否">否</option>
+								<option value="是">是</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="layui-inline">
+						<label class="layui-form-label">密保邮箱</label>
+						<div class="layui-input-inline" style="width: 200px;">
+							<input type="text" name="ProtectEMail" lay-verify="" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					
+					<div class="layui-inline">
+						<label class="layui-form-label">密保手机</label>
+						<div class="layui-input-inline" style="width: 200px;">
+							<input type="text" name="protectMTel" lay-verify="" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					
+					<div class="layui-inline">
+						<label class="layui-form-label">创建时间</label>
+						<div class="layui-input-inline" style="width: 200px;">
+							<input type="text" id="a_time" name="CreateTime" lay-verify="" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+
+
+					<div class="layui-inline">
+						<label class="layui-form-label"></label>
+						<div class="layui-input-inline" style="width: 200px;">
+							<button class="layui-btn" lay-submit lay-filter="a_formDemo">立即提交</button>
+						</div>
+					</div>
+
+				</div>
+			</form>
+		</div>
+		<!-- 添加End -->
+
+
+		<form class="layui-form" action="">
+			<div class="layui-form-item">
+
+
+				<div class="layui-inline">
+					<label class="layui-form-label">用户名</label>
+					<div class="layui-input-inline" style="width: 100px;">
+						<input type="text" name="LoginName" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+
+				<div class="layui-inline">
+					<label class="layui-form-label">条件</label>
+					<div class="layui-input-inline" style="width: 100px;">
+						<select name="sclass" lay-verify="">
+							<option value="">--请选择--</option>
+							<option value="">---</option>
+							<option value="">---</option>
+						</select>
+					</div>
+				</div>
+
+
+				<div class="layui-inline">
+					<label class="layui-form-label"></label>
+					<div class="layui-input-inline" style="width: 100px;">
+						<button class="layui-btn" lay-submit lay-filter="formDemo">查询</button>
+					</div>
+				</div>
+
+
+			</div>
+		</form>
+
+		<table id="demo" lay-filter="test"></table>
+
+		<script type="text/javascript" src="js/layui/layui.js"></script>
+		<script>
+			layui.use(['layer', 'form','table','jquery','form',"laydate"], function(){
+	  var layer = layui.layer
+	  ,form = layui.form,table =layui.table,$ = layui.jquery,form = layui.form,laydate = layui.laydate;
+	
+	  
+	  table.render({
+		     elem: '#demo'
+		    ,method:'post'
+		    ,toolbar: '#toolbarDemo'
+		    ,url:'http://localhost:8080/maven_crm/stu/stus' //数据接口
+		    ,page: true //开启分页
+		    ,cols: [[ //表头
+		      {field: 'id', title: '编号', width:80, sort: true, fixed: 'left'}
+		      ,{field: 'loginName', title: '用户名', width:100}
+		      ,{field: 'password', title: '密码', width:120}
+		      ,{
+						field: 'isLockout', title: '是否锁定', templet: function (d) {
+							var state = "";
+							var id = d.id;
+							if (d.isLockout == "是") {
+								state = "<form class='layui-form'><input class='layui-icon layui-icon-export' type='checkbox' value='" + id + "' id='isLockout' lay-filter='stat' checked='checked' name='isLockout'  lay-skin='switch' lay-text='是|否' ></form>";
+							}
+							else {
+								state = "<form class='layui-form'><input class='layui-icon layui-icon-export' type='checkbox'  value='" + id + "' id='isLockout' lay-filter='stat'  name='isLockout'  lay-skin='switch' lay-text='是|否' ></form>";
+							}
+
+							return state;
+						}, width: 100
+					}
+			  ,{field: 'lockTime',title: '被锁定时间', width: 150}
+		      ,{field: 'lastLoginTime', title: '最后登录时间', width: 177}
+		      ,{field: 'psdWrongTime', title: '密码错误次数', width: 150}
+			  ,{field: 'protectEMail', title: '密保邮箱', width: 175}
+			  ,{field: 'protectMTel', title: '密保手机号', width: 120}
+			  ,{field: 'createTime', title: '创建时间', width: 220, sort: true}
+		      ,{fixed: 'right',width:150, align:'center', toolbar: '#barDemo'} 
+		    ]]
+	         ,id:'tab'
+		  });
+	  
+	  form.on('submit(formDemo)', function(data){
+		  //alert(JSON.stringify(data));
+		  table.reload('tab', {  
+		    where:data.field
+		
+			});
+		  return false;
+		});
+	  
+	  
+	//监听工具条 删除
+	  table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+	    var data = obj.data; //获得当前行数据
+	    var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+	    var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+	   
+	     if(layEvent === 'del'){ //删除
+	      layer.confirm('真的删除么', function(index){
+	    	  //alert(JSON.stringify(data.id));
+	    	  $.post("http://localhost:8080/maven_crm/stu/deleteUser",{"id":data.id},function(r){
+	    	  		if(r.code=="0"){
+	    	  		  table.reload('tab');
+	    	  	      layer.close(index); 
+	    	  		}
+	    	  	},"json");
+	      });
+	        } else if(layEvent === 'edit'){ //编辑
+	    	layer.open({
+	  		  type: 1,
+	  		  content: $('#edit') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+	  		});  
+	      	//给表单赋值
+	      	form.val("editAll", { //formTest 即 class="layui-form" 所在元素属性 lay-filter="" 对应的值
+	      	   "Id":data.id
+	      	  ,"LoginName":data.loginName
+	      	  ,"Password": data.password
+	      	  ,"IsLockout":data.isLockout
+	      	  ,"ProtectEMail": data.protectEMail
+	      	  ,"protectMTel": data.protectMTel
+	      	
+	      	});
+	      	//修改
+	      	form.on('submit(e_formDemo)', function(data){
+	      		//alert(JSON.stringify(data.field))
+	      		$.post("http://localhost:8080/maven_crm/stu/updataUser",data.field,function(r){
+	      	  		if(r.code=="0"){
+	      	  		  table.reload('tab');
+	      	  		  layer.closeAll();
+	      	  		}
+	      	  	},"json");
+	      	  return false;
+	      	});
+	    }
+	  });
+	  
+	//监听事件  添加
+	  table.on('toolbar(test)', function(obj){
+	    var checkStatus = table.checkStatus(obj.config.id);
+	    switch(obj.event){
+	      case 'add':
+	      	layer.open({
+	      		  type: 1,
+	      		  content: $('#add') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+	      		});
+	      	
+	    	form.on('submit(a_formDemo)', function(data){
+	    		 alert(JSON.stringify(data.field));
+	      		$.post("http://localhost:8080/maven_crm/stu/addStus",data.field,function(r){
+	      	  		if(r.code=="0"){
+	      	  		  table.reload('tab');
+	      	  		  layer.closeAll();
+	      	  		}
+	      	  	},"json");
+	      	  return false;
+	      	});
+	      break;
+	    };
+	  });
+
+	   laydate.render({
+	      elem: '#a_time'//指定元素
+		 ,type: 'datetime'
+	    });
+		
+		// 监听 锁定
+		form.on('switch(stat)', function (data) {
+			if (data.elem.checked) {
+				$.post("http://localhost:8080/maven_crm/stu/lock", { id: data.value, isLockout: '是' }, function (obj) {
+					if (obj.code == 0) {
+						layer.msg(obj.msg);
+						setTimeout(function () {
+							layer.closeAll();
+							table.reload('tab', {});
+						}, 2000);
+					} else {
+						layer.msg(obj.msg);
+					}
+				}, "json");
+			} else {
+				$.post("http://localhost:8080/maven_crm/stu/unlock", { id: data.value, isLockout: '否' }, function (obj) {
+					if (obj.code == 0) {
+						layer.msg(obj.msg);
+						setTimeout(function () {
+							layer.closeAll();
+							table.reload('tab', {});
+						}, 2000);
+					} else {
+						layer.msg(obj.msg);
+					}
+				}, "json");
+			}
+		});
+	});
+	</script>
+		<script type="text/html" id="toolbarDemo">
+			<div class="layui-btn-container">
+	    <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+	  </div>
+	</script>
+
+		<script type="text/html" id="barDemo">
+			<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+	  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> 
+	</script>
+	<script type="text/html" id="lock">
+	<input type="checkbox" name="isLockout" lay-skin="switch" lay-text="是|否">
+    </script>
+	</body>
+</html>

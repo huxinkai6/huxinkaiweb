@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../lib/layui/layui.js"></script>
+		<link rel="stylesheet" href="../lib/layui/css/layui.css" />
+		
+	</head>
+	<body style="height:auto">
+<!--<%--行内表单开始 --%>-->
+  <div class="layui-form-item" style="margin-top: 10px; margin-left: 10px">
+			<form class="layui-form" method="get" >
+				<label class="layui-form-mid">用户名：</label>
+				<div class="layui-input-inline" style="width: 100px;">
+					<input type="text" id="txtUserName" name="LoginName" placeholder="请输入" autocomplete="off" class="layui-input" />
+				</div>
+				<label class="layui-form-mid">起止时间：</label>
+				<div class="layui-input-inline" style="width: 100px;">
+					<input type="text" id="begin" name="CreateTime" autocomplete="off" placeholder="yyyy-MM-dd" class="layui-input" />
+				</div>
+				<label class="layui-form-mid">--</label>
+				<div class="layui-input-inline" style="width: 100px;">
+					<input type="text" id="end" name="LastLoginTime" autocomplete="off" placeholder="yyyy-MM-dd" class="layui-input" />
+				</div>
+				<label class="layui-form-mid">是否锁定：</label>
+				<div class="layui-input-inline" style="width: 100px;">
+					<select id="cc" name="Islockout" class="layui-input">
+						<option value="">请选择</option>
+						<option value="是">是</option>
+						<option value="否">否</option>
+					</select>
+				</div>
+				<!--<label class="layui-form-mid">排序：</label>
+				<div class="layui-input-inline" style="width: 100px;">
+					<select id="ord" name="orderBy" class="layui-input">
+						<option value="">请选择</option>
+						<option value="CreateTime">创建时间</option>
+						<option value="LastLoginTime">最后登陆时间</option>
+					</select>
+				</div>-->
+				  <div class="layui-inline">
+				    <div class="layui-input-inline" style="width: 100px;">
+				       <button class="layui-btn" lay-submit lay-filter="tijiao">搜索</button>
+				    </div>
+				  </div>
+			</form>
+		</div>
+<!--<%--行内表单结束 --%>-->
+    <table id="demo" lay-filter="test"></table>
+ 
+
+<script>
+var form,table,$,layer;
+layui.use(['form','table','jquery'], function(){
+  table = layui.table;
+  form=layui.form;
+  $=layui.jquery;
+  layer=layui.layer;
+  //第一个实例
+  table.render({
+    elem: '#demo'
+    ,height: 312
+    ,url: 'http://127.0.0.1:8080/maven_ssm/api/getAllUsers'
+    ,page: true //开启分页
+    ,cols: [[ //表头
+       {field: 'id', title: 'ID', width:40, sort: true, fixed: 'left'}
+      ,{field: 'loginName', title: '用户名', width:80}
+      ,{field: 'passWord', title: '密码', width:80}
+      ,{field: 'islockout', title: '是否锁定', width:90} 
+      ,{field: 'lastLoginTime', title: '最后登录时间', width:130} 
+      ,{field: 'createTime', title: '创建时间', width:130} 
+      ,{field: 'psdWrongTime', title: '密码错误次数', width:90} 
+      ,{field: 'lockTime', title: '锁定时间', width:130} 
+      ,{field: 'protectEMail', title: '密保邮箱', width:120} 
+      ,{field: 'protectMTel', title: '密保电话', width:130} 
+      ,{ title: '操作', width: 185, sort: true,toolbar: '#barDemo'}
+    ]],
+    id:"userShow"
+  });
+  //数据重载
+ form.on('submit(tijiao)',function(data){
+
+	 table.reload('userShow',{
+		   where:data.field
+	 });
+	 return false;
+ });
+   
+  //监听修改提交
+  form.on('submit(bjtj)',function(data){
+	     
+	       $.post("person?method=updatePerson",data.field,function(r){
+	    	    
+	    	     table.reload('personShow');
+	       },"json");
+	       
+  });
+  //用户查看
+  table.on('tool(test)',function(obj){
+	    var event=obj.event;
+	    if(event=='detail'){
+	    	 alert("详情");
+	    	form.val('detail',{
+	    		 "name":obj.data.name,
+	    		 "phone":obj.data.phone,
+	    		 "email":obj.data.email,
+	    		 "address":obj.data.address
+	    	});
+	    	layer.open({
+	    		type:1,
+	    		title:'详情页面',
+	    		btn:['返回'],
+	    		area:['300px','300px'],
+	    		move:false,
+	    		content:$("#xq")
+	    	});
+	    }
+	    if(event=='edit'){
+	    	form.val('edit',{
+	    		"id":obj.data.id,
+	    		 "name":obj.data.name,
+	    		 "phone":obj.data.phone,
+	    		 "email":obj.data.email,
+	    		 "address":obj.data.address
+	    	});
+	    	layer.open({
+	    		type:1,
+	    		title:'修改页面',
+	    		btn:['返回'],
+	    		area:['300px','300px'],
+	    		move:false,
+	    		content:$("#bj")
+	    	});
+	    }
+  });
+});
+</script>
+
+<script type="text/html" id="barDemo">
+			<a class="layui-btn layui-btn-xs" lay-event="set"><i class="layui-icon">&#xe614;设置</i></a>
+			<a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="lock">锁定</a>
+			<a class="layui-btn layui-btn-xs" lay-event="unlock">解锁</a>
+			<a class="layui-btn layui-btn-xs" lay-event="reset">密码重置</a>
+			<a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="detail">查看</a>
+			<a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="edit"><i class="layui-icon">&#xe642;编辑</i></a>
+			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon">&#xe640;删除</i></a>
+		</script>
+		<script type="text/html" id="toolbarDemo">
+			<div class="layui-btn-container">
+				<button class="layui-btn layui-btn-warm layui-btn-sm" lay-event="add">添加</button>
+				<button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="deletes">批量删除</button>
+			</div>
+		</script>
+  <!-- <%--详情开始--%>-->
+    <form class="layui-form" style="display:none" id="xq" lay-filter="detail"> 
+     <div class="layui-form-item">
+    <label class="layui-form-label">用户姓名</label>
+    <div class="layui-input-block">
+      <input type="text" name="name" readonly="readonly"  autocomplete="off" class="layui-input">
+    </div>
+     </div>
+     <div class="layui-form-item">
+    <label class="layui-form-label">手机号</label>
+    <div class="layui-input-block">
+      <input type="text" style="color:blue" name="phone" readonly="readonly"  autocomplete="off" class="layui-input">
+    </div>
+     </div>
+     <div class="layui-form-item">
+    <label class="layui-form-label">邮箱</label>
+    <div class="layui-input-block">
+      <input type="text" name="email" readonly="readonly"  autocomplete="off" class="layui-input">
+    </div>
+     </div>
+     <div class="layui-form-item">
+    <label class="layui-form-label">地址</label>
+    <div class="layui-input-block">
+      <input type="text" name="address" readonly="readonly"  autocomplete="off" class="layui-input">
+    </div>
+     </div>
+     </form>
+  <!--  <%--详情结束--%>-->
+   <!-- <%--编辑开始--%>-->
+    <form class="layui-form" style="display:none" id="bj" lay-filter="edit"> 
+     <div class="layui-form-item">
+    <label class="layui-form-label">用户姓名</label>
+    <div class="layui-input-block">
+    <input type="hidden" name="id" autocomplete="off" class="layui-input">
+      <input type="text" name="name" autocomplete="off" class="layui-input">
+    </div>
+     </div>
+     <div class="layui-form-item">
+    <label class="layui-form-label">手机号</label>
+    <div class="layui-input-block">
+      <input type="text" style="color:blue" name="phone"  autocomplete="off" class="layui-input">
+    </div>
+     </div>
+     <div class="layui-form-item">
+    <label class="layui-form-label">邮箱</label>
+    <div class="layui-input-block">
+      <input type="text" name="email"   autocomplete="off" class="layui-input">
+    </div>
+     </div>
+     <div class="layui-form-item">
+    <label class="layui-form-label">地址</label>
+    <div class="layui-input-block">
+      <input type="text" name="address"  autocomplete="off" class="layui-input">
+    </div>
+     </div>
+      <div class="layui-input-block">
+       <button class="layui-btn" lay-submit lay-filter="bjtj">提交</button>
+     </div>
+     
+    <%--编辑结束--%>
+    </form>
+	</body>
+
+</html>

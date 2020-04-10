@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../lib/layui/layui.js"></script>
+		<link rel="stylesheet" href="../lib/layui/css/layui.css" />
+        <script type="text/javascript" src="../globalDate.js" ></script>
+        <script type="text/javascript">
+        	layui.use('jquery',function(){
+        		 var $=layui.jquery;
+        		 //保存
+        		 $("#cun").click(function(){
+        		    $.post(globalDate.server+"CreateRole",{
+                         		     	"name":$("#name").val(), 
+                         		     	"token":globalDate.myToken
+                         		     },function(r){
+                         		     	 if(r.success){
+                         		     	 	 alert("添加成功");
+                         		     	 	 window.parent.location.reload();
+                         		     	 }else{
+                         		     	 	 alert("添加失败");
+                         		     	 }
+                         		     },"json");
+        	})  
+        	 //重置
+        	 $("#chong").click(function(){
+        	 	  $("#name").val("").focus();
+        	 });
+        	})
+        	     	 
+        </script>
+	</head>
+	<body>	
+		<div style="text-align: center;">
+			角色名：<input type="text" name="name" style="width: 200px;height:20px;" id="name" placeholder="请输入角色名" ></br>
+			<div style="text-align: center;">
+				<a class="layui-btn layui-btn-xs layui-bg-blue" id="cun"><i class="layui-icon layui-icon-ok"></i>保存</a>
+				<a class="layui-btn layui-btn-xs layui-bg-gray" type="button" id="chong"><i class="layui-icon layui-icon-close"></i>重置</a>
+			</div>
+		</div>
+	</body>
+</html>
